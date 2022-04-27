@@ -9,4 +9,4 @@ stages:
 clone: 
   stage: clone 
   script: 
-    - git clone https://githlab.com/lerndevops/javaapp
+    - git clone https://gitlab.com/lerndevops/javaapp
