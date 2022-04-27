@@ -10,28 +10,3 @@ clone:
   stage: clone 
   script: 
     - git clone https://githlab.com/lerndevops/javaapp
-
-compile: 
-  stage: compile
-  script: 
-    - /opt/maven/bin/mvn compile
-
-codereview: 
-  stage: codereview
-  script: 
-    - /opt/maven/bin/mvn -P metrics pmd:pmd
-
-unittest: 
-  stage: unittest
-  script: 
-    - /opt/maven/bin/mvn test
-
-codecoverage: 
-  stage: codecoverage
-  script: 
-    - /opt/maven/bin/mvn compile
-
-package: 
-  stage: package
-  script: 
-    - /opt/maven/bin/mvn package
