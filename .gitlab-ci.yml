@@ -1,0 +1,59 @@
+variables:
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+    -DinstallAtEnd=true
+    -DdeployAtEnd=true
+
+services:
+  - docker:20.10.16-dind
+cache:
+  paths:
+    - .m2/repository
+
+stages:
+  - compile
+  - codereview
+  - test
+  - package
+  - build-docker-image
+
+compile-job:
+  image: maven:3-openjdk-8
+  stage: compile
+  script:
+    - mvn compile
+
+codereview-job:
+  image: maven:3-openjdk-8
+  stage: codereview
+  script:
+    - mvn -P metrics pmd:pmd
+
+unittest-job:
+  image: maven:3-openjdk-8
+  stage: test
+  script:
+    - mvn test
+
+package-job:
+  image: maven:3-openjdk-8
+  stage: package
+  script:
+    - mvn package
+
+build-docker-image:
+  stage: build-docker-image
+  image: docker:20.10.16
+  script:
+      - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+      #- docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest
