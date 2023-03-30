@@ -53,4 +53,4 @@ build-docker-image:
   image: docker:20.10.16
   script:
       - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-      - docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest
+      - docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest .
