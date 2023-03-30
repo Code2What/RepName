@@ -54,6 +54,6 @@ build-docker-image:
   stage: build-docker-image
   image: docker:20.10.16
   script:
-      - 'wget --header="JOB-TOKEN: $CI_JOB_TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/my_package/${PKG_VER}/sampleapp.war'
+      - 'wget --header="PROJECT-TOKEN: $CI_JOB_TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/my_package/${PKG_VER}/sampleapp.war'
       - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
       - docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest .
