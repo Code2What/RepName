@@ -49,7 +49,7 @@ package-job:
     - mvn package
   artifacts:
     paths:
-      - /build/lerndevops/javaapp/target/sampleapp.war
+      - /builds/lerndevops/javaapp/target/sampleapp.war
 
 build-docker-image:
   stage: build-docker-image
