@@ -1,3 +1,5 @@
+rules:
+   - when: manual
 variables:
   # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
   MAVEN_OPTS: >-
@@ -49,7 +51,7 @@ package-job:
     - mvn package
   artifacts:
     paths:
-      - sampleapp.war
+      - /build/lerndevops/javaapp/target/sampleapp.war
 
 build-docker-image:
   stage: build-docker-image
