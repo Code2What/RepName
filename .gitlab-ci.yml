@@ -47,13 +47,13 @@ package-job:
   stage: package
   script:
     - mvn package
-    - 'curl --header "PRIVATE-TOKEN: $TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war https://gitlab.com/api/v4/projects/35689779/packages/generic/sampleapp/1.0/sampleapp.war'
-    #- 'curl --header "PROJECT-TOKEN: $CI_JOB_TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war"'
+    #- 'curl --header "PRIVATE-TOKEN: $TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war https://gitlab.com/api/v4/projects/35689779/packages/generic/sampleapp/1.0/sampleapp.war'
+    - 'curl --header "PRIVATE-TOKEN: $TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war"'
 
 build-docker-image:
   stage: build-docker-image
   image: docker:20.10.16
   script:
-      - 'wget --header="PRIVATE-TOKEN: $TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/my_package/${PKG_VER}/sampleapp.war'
+      - 'wget --header="PRIVATE-TOKEN: $TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war'
       - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
       - docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest .
