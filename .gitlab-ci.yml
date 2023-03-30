@@ -1,7 +1,7 @@
 workflow:
   rules:
     - if: "$CI_COMMIT_BRANCH"
-      when: never
+      when: manual
 variables:
   # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
   MAVEN_OPTS: >-
