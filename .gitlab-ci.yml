@@ -47,8 +47,8 @@ package-job:
   stage: package
   script:
     - mvn package
-    - 'curl --header "PROJECT-TOKEN: $CI_JOB_TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war"'
-
+    - 'curl --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war https://gitlab.com/api/v4/projects/35689779/packages/generic/sampleapp/1.0/sampleapp.war'
+    #- 'curl --header "PROJECT-TOKEN: $CI_JOB_TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war"'
 
 build-docker-image:
   stage: build-docker-image
