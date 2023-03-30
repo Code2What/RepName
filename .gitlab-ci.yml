@@ -47,6 +47,9 @@ package-job:
   stage: package
   script:
     - mvn package
+  artifacts:
+    paths:
+      - sampleapp.war
 
 build-docker-image:
   stage: build-docker-image
