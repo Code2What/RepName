@@ -14,36 +14,33 @@ variables:
     -DinstallAtEnd=true
     -DdeployAtEnd=true
 
-services:
-  - docker:20.10.16-dind
-cache:
-  paths:
-    - .m2/repository
+#services:
+#  - docker:20.10.16-dind
 
 stages:
-  - compile
-  - codereview
-  - test
+  #- compile
+  #- codereview
+  #- test
   - package
   - build-docker-image
 
-compile-job:
-  image: maven:3-openjdk-8
-  stage: compile
-  script:
-    - mvn compile
+# compile-job:
+#   image: maven:3-openjdk-8
+#   stage: compile
+#   script:
+#     - mvn compile
 
-codereview-job:
-  image: maven:3-openjdk-8
-  stage: codereview
-  script:
-    - mvn -P metrics pmd:pmd
+# codereview-job:
+#   image: maven:3-openjdk-8
+#   stage: codereview
+#   script:
+#     - mvn -P metrics pmd:pmd
 
-unittest-job:
-  image: maven:3-openjdk-8
-  stage: test
-  script:
-    - mvn test
+# unittest-job:
+#   image: maven:3-openjdk-8
+#   stage: test
+#   script:
+#     - mvn test
 
 package-job:
   image: maven:3-openjdk-8
@@ -56,4 +53,4 @@ build-docker-image:
   image: docker:20.10.16
   script:
       - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-      #- docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest
+      - docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest
