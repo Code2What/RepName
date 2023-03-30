@@ -58,3 +58,4 @@ build-docker-image:
       - 'wget --header="PRIVATE-TOKEN: $TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war -P /builds'
       - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
       - docker build --file Dockerfile --tag lerndevops/samplejavaapp:latest /builds
+      - docker push lerndevops/samplejavaapp:$PKG_VER
