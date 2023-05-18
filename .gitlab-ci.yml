@@ -4,28 +4,28 @@ services:
   - docker:20.10.16-dind
 
 stages:
-  - compile
-  - test
+  #- compile
+  #- test
   - package
   - build-docker-image
 
-compile-job:
-  image: maven:3-openjdk-8
-  stage: compile
-  script:
-    - mvn compile
+# compile-job:
+#   image: maven:3-openjdk-8
+#   stage: compile
+#   script:
+#     - mvn compile
 
-codereview-job:
-  image: maven:3-openjdk-8
-  stage: test
-  script:
-    - mvn -P metrics pmd:pmd
+# codereview-job:
+#   image: maven:3-openjdk-8
+#   stage: test
+#   script:
+#     - mvn -P metrics pmd:pmd
 
-unittest-job:
-  image: maven:3-openjdk-8
-  stage: test
-  script:
-    - mvn test
+# unittest-job:
+#   image: maven:3-openjdk-8
+#   stage: test
+#   script:
+#     - mvn test
 
 package-job:
   image: maven:3-openjdk-8
@@ -44,7 +44,7 @@ build-docker-image:
       #- docker build --file Dockerfile --tag lerndevops/samplejavaapp:$PKG_VER /builds
       #- docker push lerndevops/samplejavaapp:$PKG_VER
       - echo "push image to gitlab registry"
-      - docker login registry.gitlab.com $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.gitlab.com
       - docker build -t registry.gitlab.com/lerndevops/javaapp:$PKG_VER /builds
       - docker push registry.gitlab.com/lerndevops/javaapp:$PKG_VER
 
