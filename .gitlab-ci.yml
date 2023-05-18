@@ -1,8 +1,8 @@
-workflow:
-  rules:
-    - if: "$CI_COMMIT_BRANCH"
-      when: always
-    #- if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+# workflow:
+#   rules:
+#     - if: "$CI_COMMIT_BRANCH"
+#       when: always
+#     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     
 variables:
   PKG_VER: "v1.1"
@@ -39,17 +39,17 @@ package-job:
   script:
     - mvn package
     #- 'curl --header "PRIVATE-TOKEN: $TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war https://gitlab.com/api/v4/projects/35689779/packages/generic/sampleapp/1.0/sampleapp.war'
-    - 'curl --header "PRIVATE-TOKEN: $TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war"'
+    - 'curl --header "PRIVATE-TOKEN: $TOKEN" --upload-file /builds/lerndevops/javaapp/target/sampleapp.war "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${CI_COMMIT_SHORT_SHA}/sampleapp.war"'
 
 build-docker-image:
   stage: build-docker-image
   image: docker:20.10.16
   script:
-      - 'wget --header="PRIVATE-TOKEN: $TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${PKG_VER}/sampleapp.war -P /builds'
+      - 'wget --header="PRIVATE-TOKEN: $TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/sampleapp/${CI_COMMIT_SHORT_SHA}/sampleapp.war -P /builds'
       #- docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
       #- docker build --file Dockerfile --tag lerndevops/samplejavaapp:$PKG_VER /builds
       #- docker push lerndevops/samplejavaapp:$PKG_VER
       - echo "push image to gitlab registry"
       - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.gitlab.com
-      - docker build --file Dockerfile --tag registry.gitlab.com/lerndevops/javaapp:$PKG_VER /builds
-      - docker push registry.gitlab.com/lerndevops/javaapp:$PKG_VER
+      - docker build --file Dockerfile --tag registry.gitlab.com/lerndevops/sampleapp:$CI_COMMIT_SHORT_SHA /builds
+      - docker push registry.gitlab.com/lerndevops/sampleapp:$CI_COMMIT_SHORT_SHA
