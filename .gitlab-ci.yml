@@ -2,7 +2,7 @@ workflow:
   rules:
     - if: "$CI_COMMIT_BRANCH"
       when: never
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    #- if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     
 variables:
   PKG_VER: "v1.1"
